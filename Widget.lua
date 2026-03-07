@@ -72,16 +72,10 @@ function Widgets_CreateSectionFrame(parent, sectionData)
     section.cards = {}
 
     local columns = sectionData.columns or 4
-    local spacing = 5
+    local spacing = 3
     local cardWidth = 36
     local cardHeight = 36
-    local titleHeight = 20
-
-    -- Titre de section
-    section.title = section:CreateFontString(nil, "OVERLAY", "GameFontNormalLarge")
-    section.title:SetPoint("TOPLEFT", section, "TOPLEFT", 0, 0)
-    section.title:SetTextColor(0.8, 0.8, 0.8)
-    section.title:SetText(sectionData.label or "Section")
+    local titleHeight = 0
 
     local itemCount = #sectionData.items
     local rows = math.ceil(itemCount / columns)

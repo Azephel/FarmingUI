@@ -15,8 +15,8 @@ frame:SetMovable(true)
 frame:EnableMouse(true)
 frame:RegisterForDrag("LeftButton")
 
-frame:SetScript("OnDragStart", frame.StartMoving)
-frame:SetScript("OnDragStop", frame.StopMovingOrSizing)
+--frame:SetScript("OnDragStart", frame.StartMoving)
+--frame:SetScript("OnDragStop", frame.StopMovingOrSizing)
 
 -- ############################################################
 -- Chargement addon
@@ -43,7 +43,26 @@ frame:SetScript("OnEvent", function(self, event, name)
 
             table.insert(frame.sections, sectionFrame)
 
-            yOffset = yOffset - sectionFrame:GetHeight() - 20
+            local sectionSpacing = 0
+            yOffset = yOffset - sectionFrame:GetHeight() - sectionSpacing
+        end
+
+        -- Deplacement addon  - alt + clic
+        if frame.sections[1] and frame.sections[1].cards[1] then
+            local dragHandle = frame.sections[1].cards[1]
+
+            dragHandle:EnableMouse(true)
+            dragHandle:RegisterForDrag("LeftButton")
+
+            dragHandle:SetScript("OnDragStart", function()
+                if IsAltKeyDown() then
+                    frame:StartMoving()
+                end
+            end)
+
+            dragHandle:SetScript("OnDragStop", function()
+                frame:StopMovingOrSizing()
+            end)
         end
 
         return
