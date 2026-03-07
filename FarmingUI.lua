@@ -9,6 +9,8 @@ local frame = CreateFrame("Frame", "FarmingUI_MainFrame", UIParent)
 frame:SetSize(600, 400)
 frame:SetPoint("CENTER")
 
+frame.sections = {}
+
 frame:SetMovable(true)
 frame:EnableMouse(true)
 frame:RegisterForDrag("LeftButton")

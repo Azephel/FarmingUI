@@ -3,23 +3,6 @@
 -- ############################################################
 
 -- ------------------------------------------------------------
--- Retourne la couleur du marqueur de rareté
--- rarity:
--- 0 = pas de rareté
--- 1 = normal (argent)
--- 2 = rare (or)
--- ------------------------------------------------------------
-local function GetRarityColor(rarity)
-    if rarity == 2 then
-       return 1.0, 0.82, 0.0 -- or
-    elseif rarity == 1 then
-        return 0.75, 0.75, 0.75 -- argent
-    end
-
-    return 0.45, 0.45, 0.45 -- gris / sans rareté
-end
-
--- ------------------------------------------------------------
 -- Crée une carte d'item
 -- ------------------------------------------------------------
 function Widgets_CreateItemCard(parent, itemData)
@@ -50,40 +33,15 @@ function Widgets_CreateItemCard(parent, itemData)
     card.countText:SetJustifyH("RIGHT")
     card.countText:SetText(tostring(FarmingUI_Utils.CountItemInBags(itemData.itemID)))
 
-    -- Couleur rareté
-    local r, g, b = GetRarityColor(itemData.rarity)
+    -- Badge Rareté
+    local atlas = FarmingUI_Utils.GetProfessionQualityAtlas(itemData.itemID)
 
-    -- Petit badge rareté en haut à gauche
-    card.rarityMark = CreateFrame("Frame", nil, card, "BackdropTemplate")
-    card.rarityMark:SetSize(14, 14)
-    card.rarityMark:SetPoint("TOPLEFT", card, "TOPLEFT", -3, 3)
-
-    card.rarityMark:SetBackdrop({
-        bgFile = "Interface\\Buttons\\WHITE8x8",
-        edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
-        edgeSize = 8,
-        insets = { left = 1, right = 1, top = 1, bottom = 1 },
-    })
-    card.rarityMark:SetBackdropColor(r, g, b, 1)
-    card.rarityMark:SetBackdropBorderColor(r * 0.75, g * 0.75, b * 0.75, 1)
-
-    card.rarityMark.text = card.rarityMark:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
-    card.rarityMark.text:SetPoint("CENTER", card.rarityMark, "CENTER", 0, 0)
-    card.rarityMark.text:SetTextColor(0.1, 0.1, 0.1)
-
-    if itemData.rarity == 2 then
-        card.rarityMark.text:SetText("R")
-    elseif itemData.rarity == 1 then
-        card.rarityMark.text:SetText("N")
-    else
-        card.rarityMark.text:SetText("-")
+    if atlas then
+        card.qualityIcon = card:CreateTexture(nil, "OVERLAY")
+        card.qualityIcon:SetSize(14,14)
+        card.qualityIcon:SetPoint("TOPLEFT", card, "TOPLEFT", -2, 2)
+        card.qualityIcon:SetAtlas(atlas)
     end
-
-    -- Bordure colorée légère selon rareté
-    card.rarityGlow = card:CreateTexture(nil, "OVERLAY")
-    card.rarityGlow:SetPoint("TOPLEFT", card, "TOPLEFT", 1, -1)
-    card.rarityGlow:SetPoint("BOTTOMRIGHT", card, "BOTTOMRIGHT", -1, 1)
-    card.rarityGlow:SetColorTexture(r, g, b, 0.12)
 
     -- Tooltip
     card:EnableMouse(true)

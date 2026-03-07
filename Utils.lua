@@ -40,3 +40,31 @@ function FarmingUI_Utils.CountItemInBags(itemID)
 
     return total
 end
+
+-- ------------------------------------------------------------
+-- Recuperation du badge de rareté
+-- ------------------------------------------------------------
+function FarmingUI_Utils.GetProfessionQuality(itemID)
+
+    if not C_TradeSkillUI then
+        return 0
+    end
+
+    local q = C_TradeSkillUI.GetItemReagentQualityByItemInfo(itemID)
+
+    return q or 0
+end
+
+-- ------------------------------------------------------------
+-- Recuperation de l'atlas de rareté
+-- ------------------------------------------------------------
+function FarmingUI_Utils.GetProfessionQualityAtlas(itemID)
+
+    local q = FarmingUI_Utils.GetProfessionQuality(itemID)
+
+    if q == 0 then
+        return nil
+    end
+
+    return "Professions-ChatIcon-Quality-12-Tier"..q
+end
