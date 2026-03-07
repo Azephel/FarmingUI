@@ -1,70 +1,56 @@
 local addonName = ...
 local FarmingUI = {}
 
-local ICON_TEXTURE = 236774
+-- ############################################################
+-- Frame principal
+-- ############################################################
 
--- ########################################################################
--- Création Frame principal
--- ########################################################################
-local frame = CreateFrame("Frame", "FarmingUI_MainFrame", UIParent, "BackdropTemplate")
-FarmingUI.frame = frame
+local frame = CreateFrame("Frame", "FarmingUI_MainFrame", UIParent)
+frame:SetSize(600, 400)
+frame:SetPoint("CENTER")
 
-frame:SetSize(48, 48)
-frame:SetPoint("CENTER", UIParent, "CENTER", 0, 0)
 frame:SetMovable(true)
 frame:EnableMouse(true)
 frame:RegisterForDrag("LeftButton")
 
--- ########################################################################
--- Fond Simple
--- ########################################################################
-frame.bg = frame:CreateTexture(nil, "BACKGROUND")
-frame.bg:SetAllPoints(frame)
-frame.bg:SetColorTexture(0, 0, 0, 0.35)
+frame:SetScript("OnDragStart", frame.StartMoving)
+frame:SetScript("OnDragStop", frame.StopMovingOrSizing)
 
--- ########################################################################
--- Icone
--- ########################################################################
-frame.icon = frame:CreateTexture(nil, "ARTWORK")
-frame.icon:SetPoint("TOPLEFT", frame, "TOPLEFT", 2, -2)
-frame.icon:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", -2, 2)
-frame.icon:SetTexture(FarmingUI_Utils.GetItemIcon(ICON_TEXTURE))
+-- ############################################################
+-- Chargement addon
+-- ############################################################
 
--- ########################################################################
--- Textes de quantité
--- ########################################################################
-frame.normalText = frame:CreateFontString(nil, "OVERLAY", "GameFontNormal")
-frame.normalText:SetPoint("BOTTOMLEFT", frame, "BOTTOMLEFT", 4, 4)
-frame.normalText:SetTextColor(0.75, 0.75, 0.75) -- argent
-frame.normalText:SetText("0")
+frame:RegisterEvent("ADDON_LOADED")
+frame:RegisterEvent("BAG_UPDATE_DELAYED")
 
-frame.rareText = frame:CreateFontString(nil, "OVERLAY", "GameFontNormal")
-frame.rareText:SetPoint("TOPRIGHT", frame, "TOPRIGHT", -4, -4)
-frame.rareText:SetTextColor(1.0, 0.82, 0.0) -- or
-frame.rareText:SetText("0")
+frame:SetScript("OnEvent", function(self, event, name)
 
--- ########################################################################
--- Marqueurs visuels de rareté
--- ########################################################################
-frame.normalMark = frame:CreateTexture(nil, "OVERLAY")
-frame.normalMark:SetSize(8, 8)
-frame.normalMark:SetPoint("BOTTOMLEFT", frame, "BOTTOMLEFT", 2, 6)
-frame.normalMark:SetColorTexture(0.75, 0.75, 0.75, 1) -- argent
+    if event == "ADDON_LOADED" then
+        if name ~= addonName then
+            return
+        end
 
-frame.rareMark = frame:CreateTexture(nil, "OVERLAY")
-frame.rareMark:SetSize(8, 8)
-frame.rareMark:SetPoint("TOPRIGHT", frame, "TOPRIGHT", -2, -6)
-frame.rareMark:SetColorTexture(1.0, 0.82, 0.0, 1) -- or
+        print("|cff00ff00[FarmingUI]|r Loaded")
 
--- ########################################################################
--- Déplacement ICON -- Alt + clic gauche
--- ########################################################################
-frame:SetScript("OnDragStart", function(self)
-    if IsAltKeyDown() then
-        self:StartMoving()
+        local dataset = FarmingUI_Midnight
+        local yOffset = -10
+
+        for _, section in ipairs(dataset.sections) do
+            local sectionFrame = Widgets_CreateSectionFrame(frame, section)
+            sectionFrame:SetPoint("TOPLEFT", frame, "TOPLEFT", 10, yOffset)
+
+            table.insert(frame.sections, sectionFrame)
+
+            yOffset = yOffset - sectionFrame:GetHeight() - 20
+        end
+
+        return
     end
-end)
 
-frame:SetScript("OnDragStop", function(self)
-    self:StopMovingOrSizing()
+    if event == "BAG_UPDATE_DELAYED" then
+        for _, sectionFrame in ipairs(frame.sections) do
+            sectionFrame:Refresh()
+        end
+        return
+    end
 end)
