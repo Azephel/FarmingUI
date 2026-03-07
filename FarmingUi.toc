@@ -1,0 +1,7 @@
+## Interface: 120001
+## Title: FarmingUI
+## Author: Azephel
+## Version: 0.1
+## Notes: UI pour le farming
+
+FarmingUI.lua
