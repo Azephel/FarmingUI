@@ -7,7 +7,10 @@
 -- ------------------------------------------------------------
 function Widgets_CreateItemCard(parent, itemData)
     local card = CreateFrame("Frame", nil, parent, "BackdropTemplate")
-    card:SetSize(36, 36)
+    local iconSize = FarmingUI_Config.Get("iconSize")
+    card:SetSize(iconSize, iconSize)
+    local fontSize = FarmingUI_Config.Get("fontSize")
+    local badgeSize = FarmingUI_Config.Get("QualityBadge")
 
     -- Fond / bordure
     card:SetBackdrop({
@@ -28,6 +31,7 @@ function Widgets_CreateItemCard(parent, itemData)
 
     -- Quantité
     card.countText = card:CreateFontString(nil, "OVERLAY", "NumberFontNormal")
+    card.countText:SetFont(STANDARD_TEXT_FONT, fontSize, "OUTLINE")
     card.countText:SetPoint("BOTTOMRIGHT", card, "BOTTOMRIGHT", -2, 2)
     card.countText:SetTextColor(1, 1, 1)
     card.countText:SetJustifyH("RIGHT")
@@ -38,7 +42,7 @@ function Widgets_CreateItemCard(parent, itemData)
 
     if atlas then
         card.qualityIcon = card:CreateTexture(nil, "OVERLAY")
-        card.qualityIcon:SetSize(14,14)
+        card.qualityIcon:SetSize(badgeSize,badgeSize)
         card.qualityIcon:SetPoint("TOPLEFT", card, "TOPLEFT", -2, 2)
         card.qualityIcon:SetAtlas(atlas)
     end
@@ -72,9 +76,9 @@ function Widgets_CreateSectionFrame(parent, sectionData)
     section.cards = {}
 
     local columns = sectionData.columns or 4
-    local spacing = 3
-    local cardWidth = 36
-    local cardHeight = 36
+    local spacing = FarmingUI_Config.Get("spacing")
+    local cardWidth = FarmingUI_Config.Get("iconSize")
+    local cardHeight = FarmingUI_Config.Get("iconSize")
     local titleHeight = 0
 
     local itemCount = #sectionData.items

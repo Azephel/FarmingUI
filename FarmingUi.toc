@@ -2,9 +2,12 @@
 ## Title: FarmingUI
 ## Author: Azephel
 ## Version: 0.1
-## Notes: UI pour le farming
+## SavedVariables: FarmingUI_DB
 
 Utils.lua
 Midnight.lua
 Widget.lua
+Config.lua
+Commands.lua
+Options.lua
 FarmingUI.lua

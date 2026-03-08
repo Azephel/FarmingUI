@@ -1,9 +1,21 @@
 -- ############################################################
 -- FarmingUI Dataset : Midnight
 -- ############################################################
--- Rarity 0 = no rarity
---        1 = Normal
---        2 = Rare
+-- metiers légaux : 171 = Alchemy
+--                  164 = Blacksmithing
+--                  333 = Enchanting
+--                  202 = Engineering
+--                  182 = Herbalism
+--                  773 = Inscription
+--                  755 = Jewelcrafting
+--                  165 = Leatherworking
+--                  186 = Mining
+--                  393 = Skinning
+--                  197 = Tailoring
+---------------------------------------------------------------
+--                  185 = Cooking
+--                  356 = Fishing
+--                  794 = Archaeology
 -- ############################################################
 
 FarmingUI_Midnight = {
@@ -14,7 +26,7 @@ FarmingUI_Midnight = {
         {-- Herbalism
             id = "herbs",
             label = "herbs",
-            profession = "herbalism",
+            profession = {182},
             columns = 6,
 
             items = {
@@ -37,7 +49,7 @@ FarmingUI_Midnight = {
         { -- Mining
             id = "ore",
             label = "ore",
-            profession = "mining",
+            profession = {186},
             columns = 4,
 
             items = {
@@ -50,6 +62,61 @@ FarmingUI_Midnight = {
                 { itemID = 237365, label = "argent brillant" },
                 { itemID = 237363, label = "étain ombreux" },
                 { itemID = 237361, label = "cuivre éclatant" },
+            },
+        },
+
+        { -- Depessage
+            id = "Leather",
+            label = "Leather",
+            profession = {165},
+            columns = 2,
+
+            items = {
+                { itemID = 238512, label = "Cuir tanné par le Vide" },
+                { itemID = 238514, label = "Écailles altérées par le Vide" },
+
+                { itemID = 238519, label = "Cuir tanné par le Vide" },
+                { itemID = 238521, label = "Écailles altérées par le Vide" },
+
+                --{ itemID = 238522, label = "Plumage incomparable" },
+                --{ itemID = 238528, label = "Griffe majestueuse" },
+
+                --{ itemID = 238525, label = "Fourrure fantastique" },
+                --{ itemID = 238530, label = "Nageoire majestueuse" },
+                
+                --{ itemID = 238523, label = "Canine tranchante" },
+                --{ itemID = 238529, label = "Peau majestueuse" },
+            },
+        },
+        { -- Depessage special
+            id = "Leather",
+            label = "Leather",
+            profession = {165},
+            columns = 3,
+
+            items = {
+                { itemID = 238522, label = "Plumage incomparable" },
+                { itemID = 238525, label = "Fourrure fantastique" },
+                { itemID = 238523, label = "Canine tranchante" },
+                
+                { itemID = 238528, label = "Griffe majestueuse" },
+                { itemID = 238530, label = "Nageoire majestueuse" },
+                { itemID = 238529, label = "Peau majestueuse" },
+                
+            },
+        },
+
+        { -- Regents
+            id = "Regent",
+            label = "Regeant",
+            profession = {182, 186},
+            columns = 4,
+
+            items = {
+                { itemID = 236949, label = "particules de Lumiere" },
+                { itemID = 236952, label = "particules de vide pur" },
+                { itemID = 236951, label = "particule de magie sauvage" },
+                { itemID = 236950, label = "particule d'energie primordiale" },
             },
         },
     },

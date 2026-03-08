@@ -4,6 +4,24 @@
 
 FarmingUI_Utils = {}
 
+-- liste id des metier
+FarmingUI_Utils.Professions = {
+    Alchemy      = 171,
+    Blacksmith   = 164,
+    Enchanting   = 333,
+    Engineering  = 202,
+    Herbalism    = 182,
+    Inscription  = 773,
+    Jewelcraft   = 755,
+    Leatherwork  = 165,
+    Mining       = 186,
+    Skinning     = 393,
+    Tailoring    = 197,
+    Cooking      = 185,
+    Fishing      = 356,
+    Archaeology  = 794,
+}
+
 -- ------------------------------------------------------------
 -- Retourne l'icône d'un item à partir de son ID
 -- ------------------------------------------------------------
@@ -67,4 +85,35 @@ function FarmingUI_Utils.GetProfessionQualityAtlas(itemID)
     end
 
     return "Professions-ChatIcon-Quality-12-Tier"..q
+end
+
+-- ------------------------------------------------------------
+-- Recuperation des metiers
+-- ------------------------------------------------------------
+function FarmingUI_Utils.PlayerHasProfession(professionIDs)
+    if not professionIDs then
+        return true
+    end
+
+    local knownProfessions = {}
+
+    local prof1, prof2, archaeology, fishing, cooking = GetProfessions()
+    local professionIndexes = { prof1, prof2, archaeology, fishing, cooking }
+
+    for _, professionIndex in ipairs(professionIndexes) do
+        if professionIndex then
+            local name, icon, skillLevel, maxSkillLevel, numAbilities, spelloffset, skillLine = GetProfessionInfo(professionIndex)
+            if skillLine then
+                knownProfessions[skillLine] = true
+            end
+        end
+    end
+
+    for _, wantedID in ipairs(professionIDs) do
+        if knownProfessions[wantedID] then
+            return true
+        end
+    end
+
+    return false
 end

@@ -6,14 +6,14 @@ local FarmingUI = {}
 -- ############################################################
 
 local frame = CreateFrame("Frame", "FarmingUI_MainFrame", UIParent)
-frame:SetSize(600, 400)
+frame:SetSize(1, 1)
 frame:SetPoint("CENTER")
 
 frame.sections = {}
 
 frame:SetMovable(true)
 frame:EnableMouse(true)
-frame:RegisterForDrag("LeftButton")
+--frame:RegisterForDrag("LeftButton")
 
 --frame:SetScript("OnDragStart", frame.StartMoving)
 --frame:SetScript("OnDragStop", frame.StopMovingOrSizing)
@@ -32,19 +32,23 @@ frame:SetScript("OnEvent", function(self, event, name)
             return
         end
 
+        --initialisation
+        FarmingUI_Config.Init()
         print("|cff00ff00[FarmingUI]|r Loaded")
 
         local dataset = FarmingUI_Midnight
         local yOffset = -10
 
         for _, section in ipairs(dataset.sections) do
-            local sectionFrame = Widgets_CreateSectionFrame(frame, section)
-            sectionFrame:SetPoint("TOPLEFT", frame, "TOPLEFT", 10, yOffset)
+            if not section.profession or FarmingUI_Utils.PlayerHasProfession(section.profession) then
+                local sectionFrame = Widgets_CreateSectionFrame(frame, section)
+                sectionFrame:SetPoint("TOPLEFT", frame, "TOPLEFT", 10, yOffset)
 
-            table.insert(frame.sections, sectionFrame)
+                table.insert(frame.sections, sectionFrame)
 
-            local sectionSpacing = 0
-            yOffset = yOffset - sectionFrame:GetHeight() - sectionSpacing
+                local sectionSpacing = 0
+                yOffset = yOffset - sectionFrame:GetHeight() - sectionSpacing
+            end
         end
 
         -- Deplacement addon  - alt + clic
